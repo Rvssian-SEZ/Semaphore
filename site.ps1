@@ -1,9 +1,11 @@
-# Test connectivity to a windows host
-# ansible winserver -m win_ping
+---
+- name: Test Playbook
+  hosts: 10.10.3.69
 
-- name: Example from an Ansible Playbook
-  win_ping:
-
-- name: Induce an exception to see what happens
-  win_ping:
-    data: crash
+  tasks:
+  - name: Run shell
+    win_shell: |
+      $ret = Test-Path -Path C:\tmp
+      if ($ret) {
+        Remove-Item -Path C:\tmp -Force
+      }
