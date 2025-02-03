@@ -1,12 +1,8 @@
 ---
-- name: create temporary directory
-  win_tempfile:
-    state: directory
-    suffix: .test
-  register: remote_tmp_dir
-  notify:
-  - delete temporary directory
-
-- name: record temporary directory
-  set_fact:
-    remote_tmp_dir: "{{ remote_tmp_dir.path }}"
+- name: win_ping module demo
+  host: windows
+  become: false
+  gather_facts: false
+  task:
+    - name: test connection
+      ansible.windows.win_ping:
