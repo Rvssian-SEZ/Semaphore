@@ -1,7 +1,7 @@
 ---
 - hosts: all
 
-  become_user: alex
+  become: true
   tasks:
     - name: update apt packages
       apt:
