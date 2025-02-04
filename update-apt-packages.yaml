@@ -3,7 +3,7 @@
 
   become: true
   become_user: alex
-  become_method: sudo
+  become_method: su
   tasks:
     - name: update apt packages
       apt:
