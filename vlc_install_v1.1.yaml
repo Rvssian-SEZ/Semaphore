@@ -1,0 +1,24 @@
+---
+- name: Install VLC and display progress
+  hosts: all  # Change this to the target group or host
+  become: yes  # Run as sudo
+  become_user: root
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+      register: update_output
+
+    - name: Display update progress
+      debug:
+        msg: "{{ update_output.stdout_lines }}"
+
+    - name: Install VLC
+      apt:
+        name: vlc
+        state: present
+      register: install_output
+
+    - name: Display installation progress
+      debug:
+        msg: "{{ install_output.stdout_lines }}"
