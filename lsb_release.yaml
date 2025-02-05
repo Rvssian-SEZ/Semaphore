@@ -1,6 +1,7 @@
 ---
 - hosts: all
   gather_facts: false
+  task:
 - name: This command will change the working directory to somedir/
   ansible.builtin.shell:
     cmd: lsb_release -a
