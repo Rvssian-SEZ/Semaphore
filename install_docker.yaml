@@ -5,7 +5,7 @@
   become_user: root
   tasks:
     - name: Download and execute Docker install script
-      shell: wget -qO- https://github.com/Rvssian-SEZ/Semaphore/blob/main/install_docker.sh | bash
+      shell: https://raw.githubusercontent.com/pi-hosted/pi-hosted/master/install_docker.sh | bash
       args:
         executable: /bin/bash
       register: install_output
