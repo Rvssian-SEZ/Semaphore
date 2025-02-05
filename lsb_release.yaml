@@ -10,4 +10,4 @@
 
     - name: Display command output
       debug:
-        msg: "{{ lsb_output.stdout_lines }}"
+        msg: "{{ lsb_output.stdout_lines | join('\n') }}"
