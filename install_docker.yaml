@@ -1,12 +1,16 @@
 ---
 - name: Run Docker installation script from GitHub
-  hosts: all  # Change this to the target group or host
+  hosts: all
   become: yes  # Run as sudo
-  become_user: root
- tasks:
+  tasks:
     - name: Ensure curl is installed
       package:
         name: curl
+        state: present
+
+    - name: Ensure Docker group exists
+      group:
+        name: docker
         state: present
 
     - name: Download and execute Docker install script with progress
@@ -16,11 +20,6 @@
       register: install_output
       failed_when: install_output.rc != 0
 
-    - name: Ensure Docker group exists
-      group:
-        name: docker
-        state: present
-
     - name: Add user to Docker group
       user:
         name: "{{ ansible_env.USER }}"
@@ -29,7 +28,7 @@
 
     - name: Display installation progress
       debug:
-        msg: "{{ install_output.stdout_lines }}"
+        msg: "{{ install_output.stdout_lines | default('No output captured') }}"
 
     - name: Confirm Docker installation completion
       debug:
