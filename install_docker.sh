@@ -17,6 +17,14 @@ function check_internet() {
 
 check_internet
 
+# Install Docker
 curl -sSL https://get.docker.com | sh || error "Failed to install Docker."
-sudo usermod -aG docker $USER || error "Failed to add user to the Docker usergroup."
-echo "Remember to logoff/reboot for the changes to take effect."
+
+# Get all users in sudo group and add them to the docker group
+echo "Adding all sudoers to the docker group..."
+for user in $(getent group sudo | cut -d: -f4 | tr ',' ' '); do
+  sudo usermod -aG docker $user || error "Failed to add $user to the Docker usergroup."
+  echo "Added $user to the Docker group."
+done
+
+echo "Remember to log off or reboot for the changes to take effect."
