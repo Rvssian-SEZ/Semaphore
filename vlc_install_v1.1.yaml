@@ -2,6 +2,7 @@
 - name: Install VLC and display progress
   hosts: all  # Change this to the target group or host
   become: yes  # Run as sudo
+  become_user: root
   tasks:
     - name: Update package cache
       apt:
