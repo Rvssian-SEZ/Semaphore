@@ -34,3 +34,25 @@
     - name: Confirm Docker installation completion
       debug:
         msg: "Docker installation completed successfully. Please log out and log back in for group changes to take effect."
+
+    - name: Ensure Docker group exists
+      group:
+        name: docker
+        state: present
+
+    - name: Get list of sudo users
+      command: awk -F: '$1 ~ /sudo/ {print $4}' /etc/group
+      register: sudo_users
+
+    - name: Add sudo users to the Docker group
+      user:
+        name: "{{ item }}"
+        groups: docker
+        append: yes
+      loop: "{{ sudo_users.stdout.split(',') }}"
+      when: sudo_users.stdout | length > 0
+
+    - name: Inform users to log out and back in
+      debug:
+        msg: "All sudoers have been added to the Docker group. Please log out and log back in for changes to take effect."
+
