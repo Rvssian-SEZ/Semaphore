@@ -4,13 +4,17 @@
   become: yes  # Run as sudo
   become_user: root
   tasks:
-    - name: Download and execute Docker install script
-      shell: https://raw.githubusercontent.com/Rvssian-SEZ/Semaphore/refs/heads/main/install_docker.sh | bash
+    - name: Download and execute Docker install script with progress
+      shell: wget --show-progress -qO- https://github.com/Rvssian-SEZ/Semaphore/blob/main/install_docker.sh | bash
       args:
         executable: /bin/bash
       register: install_output
       failed_when: install_output.rc != 0
 
-    - name: Display installation output
+    - name: Display installation progress
+      debug:
+        msg: "{{ install_output.stdout_lines }}"
+
+    - name: Confirm Docker installation completion
       debug:
         msg: "Docker installation completed successfully."
