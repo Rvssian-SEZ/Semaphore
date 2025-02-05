@@ -5,7 +5,7 @@
   become_user: root
   tasks:
     - name: Download and execute Docker install script with progress
-      shell: wget --show-progress -qO- https://github.com/Rvssian-SEZ/Semaphore/blob/main/install_docker.sh | bash
+      shell: wget --show-progress -qO- https://raw.githubusercontent.com/Rvssian-SEZ/Semaphore/main/install_docker.sh | bash
       args:
         executable: /bin/bash
       register: install_output
