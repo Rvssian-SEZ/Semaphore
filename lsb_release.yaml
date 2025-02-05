@@ -1,7 +1,7 @@
 ---
 - hosts: all
   gather_facts: false
-  task:
+  tasks:
 - name: Check Version
   ansible.builtin.shell:
     cmd: shell -a "lsb_release -a""
