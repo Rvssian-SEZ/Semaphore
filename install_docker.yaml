@@ -35,24 +35,32 @@
       debug:
         msg: "Docker installation completed successfully. Please log out and log back in for group changes to take effect."
 
+- name: Add all sudoers to the Docker group
+  hosts: all
+  become: yes  # Run tasks as root
+  tasks:
     - name: Ensure Docker group exists
       group:
         name: docker
         state: present
 
     - name: Get list of sudo users
-      command: awk -F: '$1 ~ /sudo/ {print $4}' /etc/group
+      command: getent group sudo
       register: sudo_users
+      changed_when: false
+
+    - name: Extract users from sudo group
+      set_fact:
+        sudo_users_list: "{{ sudo_users.stdout.split(':')[-1].split(',') }}"
 
     - name: Add sudo users to the Docker group
       user:
         name: "{{ item }}"
         groups: docker
         append: yes
-      loop: "{{ sudo_users.stdout.split(',') }}"
-      when: sudo_users.stdout | length > 0
+      loop: "{{ sudo_users_list }}"
+      when: sudo_users_list | length > 0
 
     - name: Inform users to log out and back in
       debug:
         msg: "All sudoers have been added to the Docker group. Please log out and log back in for changes to take effect."
-
