@@ -1,0 +1,16 @@
+---
+- name: Install Portainer using wget
+  hosts: all  # Change this to your target hosts or group
+  become: yes  # Run with elevated privileges
+
+  tasks:
+    - name: Ensure wget is installed
+      apt:
+        name: wget
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Download and execute Portainer install script
+      shell: wget -qO- https://raw.githubusercontent.com/pi-hosted/pi-hosted/master/install_portainer.sh | bash
+      args:
+        executable: /bin/bash
