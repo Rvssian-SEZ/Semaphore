@@ -5,3 +5,9 @@
   tasks:
     - name: Run lsb_release -a command
       command: lsb_release -a
+      register: lsb_output
+      ignore_errors: yes  # Avoid playbook failure if command is unavailable
+
+    - name: Display command output
+      debug:
+        msg: "{{ lsb_output.stdout_lines }}"
