@@ -1,33 +1,16 @@
 ---
-- name: Install Docker and configure user
-  hosts: all  # Change this to the appropriate group or hosts
+- name: Run Docker installation script from GitHub
+  hosts: all  # Change this to the target group or host
   become: yes  # Run as sudo
   become_user: root
   tasks:
-    - name: Check internet connectivity
-      command: wget -q --spider http://github.com
-      register: internet_check
-      ignore_errors: yes
-
-    - name: Fail if offline
-      fail:
-        msg: "Offline. Go connect to the internet then run the playbook again."
-      when: internet_check.rc != 0
-
-    - name: Install Docker using official script
-      shell: curl -sSL https://get.docker.com | sh
+    - name: Download and execute Docker install script
+      shell: wget -qO- https://github.com/Rvssian-SEZ/Semaphore/blob/main/install_docker.sh | bash
       args:
         executable: /bin/bash
-      register: docker_install
-      failed_when: docker_install.rc != 0
+      register: install_output
+      failed_when: install_output.rc != 0
 
-    - name: Add user to Docker group
-      user:
-        name: "{{ ansible_env.USER }}"
-        groups: docker
-        append: yes
-      register: usermod_status
-
-    - name: Inform user about logout/reboot requirement
+    - name: Display installation output
       debug:
-        msg: "Remember to logoff/reboot for the changes to take effect."
+        msg: "Docker installation completed successfully."
