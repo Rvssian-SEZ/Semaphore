@@ -1,0 +1,21 @@
+---
+- name: Install Chocolatey on Windows
+  hosts: windows
+  tasks:
+
+    - name: Download and install Chocolatey
+      win_shell: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force;
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+        iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+      args:
+        executable: powershell.exe
+
+    - name: Verify Chocolatey installation
+      win_command: choco --version
+      register: choco_version
+      changed_when: false
+
+    - name: Display Chocolatey version
+      debug:
+        msg: "Chocolatey version installed: {{ choco_version.stdout }}"
