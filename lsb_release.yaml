@@ -3,5 +3,5 @@
   gather_facts: false
   tasks:
 - name: Check Version
-  ansible.builtin.shell: lsb_release -a
+  shell: lsb_release -a
     
