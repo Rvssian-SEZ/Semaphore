@@ -1,7 +1,7 @@
 ---
-- hosts: all
-  gather_facts: false
+- name: Execute lsb_release -a on remote hosts
+  hosts: all  # Change this to the target group or host
+  gather_facts: no
   tasks:
-- name: Check Version
-  command: lsb_release -a
-    
+    - name: Run lsb_release -a command
+      command: lsb_release -a
