@@ -2,6 +2,7 @@
 - name: Run Docker installation script from GitHub
   hosts: all
   become: yes  # Run as sudo
+  become_user: root
   tasks:
     - name: Ensure curl is installed
       package:
