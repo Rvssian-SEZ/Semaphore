@@ -2,6 +2,7 @@
 - name: Install Docker and configure user
   hosts: all  # Change this to the appropriate group or hosts
   become: yes  # Run as sudo
+  become_user: root
   tasks:
     - name: Check internet connectivity
       command: wget -q --spider http://github.com
