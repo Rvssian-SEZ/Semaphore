@@ -2,20 +2,16 @@
   "version": "3",
   "templates": [
     {
+      "id": 1,
       "type": 1,
       "title": "IT-Tools",
-      "description": "Web-based tools for developers and IT professionals (corentinth/it-tools)",
-      "note": "Access the tools at http://[PORTAINER_IP]:8200 after deployment.",
-      "categories": ["Utilities", "Development", "Networking"],
+      "description": "Web-based tools for developers and IT professionals",
+      "categories": ["utilities", "networking"],
       "platform": "linux",
       "logo": "https://raw.githubusercontent.com/corentinth/it-tools/main/public/logo.svg",
-      "image": "corentinth/it-tools",
-      "ports": [
-        {
-          "container": 80,
-          "host": 8200
-        }
-      ],
-      "restart_policy": "unless-stopped",
-      "name": "it-tools"
-    },
+      "image": "corentinth/it-tools:latest",
+      "ports": ["8200:80/tcp"],
+      "restart_policy": "unless-stopped"
+    }
+  ]
+}
