@@ -15,17 +15,44 @@
       "ports": ["8200:80/tcp"],
       "restart_policy": "unless-stopped"
     },
-    {
-  "type": 1,
-  "title": "Immich (Photo/Video Backup)",
-  "name": "immich",
-  "description": "Self-hosted photo and video backup solution powered by machine learning",
-  "note": "Ensure volume paths are writable and not on network shares (especially for the database). Access Immich via http://[host]:2283",
-  "categories": ["media", "photos", "machine-learning"],
-  "platform": "linux",
-  "logo": "https://github.com/immich-app/immich/raw/main/apps/immich/src/assets/immich-logo.png",
-  "webui": "http://[HOST]:2283",
+   {
+      "type": 1,
+      "title": "Immich (Web UI Only)",
+      "name": "immich-web",
+      "description": "Immich Web Interface — use this if Redis, Postgres, and Machine Learning containers are already running",
+      "note": "Use only if full stack is already deployed. Access via http://[HOST]:2283",
+      "platform": "linux",
+      "logo": "https://github.com/immich-app/immich/raw/main/apps/immich/src/assets/immich-logo.png",
+      "image": "ghcr.io/immich-app/immich-server:{{IMMICH_VERSION}}",
+      "ports": ["2283:2283"],
+      "volumes": [
+        "{{UPLOAD_LOCATION}}:/usr/src/app/upload",
+        "/etc/localtime:/etc/localtime:ro"
+      ],
+      "env": [
+        {
+          "name": "UPLOAD_LOCATION",
+          "label": "Upload Library Path",
+          "default": "./library"
+        },
+        {
+          "name": "IMMICH_VERSION",
+          "label": "Immich Version",
+          "default": "release"
+        }
+      ],
       "restart_policy": "always",
+      "webui": "http://[HOST]:2283"
+    },
+    {
+      "type": 1,
+      "title": "Immich (Full Stack)",
+      "name": "immich",
+      "description": "Self-hosted photo and video backup solution powered by machine learning",
+      "note": "Stack deploys Immich server, Redis, Postgres, and machine-learning service. Web UI available at http://[HOST]:2283",
+      "categories": ["media", "photos", "machine-learning"],
+      "platform": "linux",
+      "logo": "https://github.com/immich-app/immich/raw/main/apps/immich/src/assets/immich-logo.png",
       "stack": true,
       "compose": {
         "version": "3.8",
@@ -38,16 +65,12 @@
               "{{UPLOAD_LOCATION}}:/usr/src/app/upload",
               "/etc/localtime:/etc/localtime:ro"
             ],
-            "env_file": [],
-            "environment": [],
             "depends_on": ["redis", "database"]
           },
           "immich-machine-learning": {
             "container_name": "immich_machine_learning",
             "image": "ghcr.io/immich-app/immich-machine-learning:{{IMMICH_VERSION}}",
-            "volumes": ["model-cache:/cache"],
-            "env_file": [],
-            "environment": []
+            "volumes": ["model-cache:/cache"]
           },
           "redis": {
             "container_name": "immich_redis",
