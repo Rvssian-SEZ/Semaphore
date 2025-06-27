@@ -16,14 +16,15 @@
       "restart_policy": "unless-stopped"
     },
     {
-      "type": 1,
-      "title": "Immich (Photo/Video Backup)",
-      "name": "immich",
-      "description": "Self-hosted photo and video backup solution powered by machine learning",
-      "note": "Ensure volume paths are writable and not on network shares (especially for the database). Access Immich via http://[host]:2283",
-      "categories": ["media", "photos", "machine-learning"],
-      "platform": "linux",
-      "logo": "https://github.com/immich-app/immich/raw/main/apps/immich/src/assets/immich-logo.png",
+  "type": 1,
+  "title": "Immich (Photo/Video Backup)",
+  "name": "immich",
+  "description": "Self-hosted photo and video backup solution powered by machine learning",
+  "note": "Ensure volume paths are writable and not on network shares (especially for the database). Access Immich via http://[host]:2283",
+  "categories": ["media", "photos", "machine-learning"],
+  "platform": "linux",
+  "logo": "https://github.com/immich-app/immich/raw/main/apps/immich/src/assets/immich-logo.png",
+  "webui": "http://[HOST]:2283",
       "restart_policy": "always",
       "stack": true,
       "compose": {
