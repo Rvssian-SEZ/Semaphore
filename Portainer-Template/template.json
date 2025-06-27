@@ -7,16 +7,14 @@
       "title": "IT-Tools",
       "name": "it-tools",
       "description": "Web-based tools for developers and IT professionals",
-      "note": "Access the IT-Tools UI at http://[host]:8200",
+      "note": "Access the IT-Tools UI at http://[HOST]:8200",
       "categories": ["utilities", "networking"],
       "platform": "linux",
       "logo": "https://raw.githubusercontent.com/corentinth/it-tools/main/public/logo.svg",
       "image": "corentinth/it-tools:latest",
       "ports": ["8200:80/tcp"],
-      "restart_policy": "unless-stopped"
-    },
-  
-      ]
+      "restart_policy": "unless-stopped",
+      "webui": "http://[HOST]:8200"
     }
   ]
 }
