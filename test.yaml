@@ -1,6 +1,6 @@
 ---
 - name: Ping Windows machine
-  hosts: windows
+  hosts: Windows
   tasks:
     - name: Test connection to Windows
       win_ping:
