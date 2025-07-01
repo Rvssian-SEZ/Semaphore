@@ -1,0 +1,12 @@
+- name: Ensure lsb_release is installed
+  package:
+    name: "{{ ansible_facts.os_family | lower == 'debian' | ternary('lsb-release', 'redhat-lsb-core') }}"
+    state: present
+
+- name: Run lsb_release -a command
+  command: lsb_release -a
+  register: lsb_output
+  ignore_errors: true
+
+- debug:
+    var: lsb_output.stdout_lines
