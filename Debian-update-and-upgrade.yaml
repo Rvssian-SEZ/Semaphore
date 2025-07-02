@@ -1,0 +1,23 @@
+---
+- name: Update and upgrade Debian/Ubuntu systems
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Ensure the system is Debian or Ubuntu
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['os_family'] == "Debian"
+        fail_msg: "This playbook only supports Debian-based systems"
+        success_msg: "System is Debian-based"
+
+    - name: Update apt package index
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600  # only update if older than 1 hour
+
+    - name: Upgrade all packages to the latest version
+      ansible.builtin.apt:
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
